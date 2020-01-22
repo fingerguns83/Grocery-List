@@ -8,3 +8,4 @@ Once you have a Twilio account, you'll need to configure your Twilio number to s
 
 The 'shell_exec' commands in this code are written...weirdly...in order to accomodate how MacOS permissions work. It's a sloppy workaround. Probably avoidable, but I have limited knowledge and this works. You'll probably need to modify those for other systems. If you are using MacOS, make sure to edit sudoers to allow '_www' to execute the script with no password.
 
+![Grocery-List animated gif](https://media.giphy.com/media/SVHcco4wcWYvkmPriF/giphy.gif)
