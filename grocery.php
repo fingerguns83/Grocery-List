@@ -3,7 +3,8 @@
 
 // Get current list from file
 //--------------------
-$listCurrentJson = shell_exec('sudo cat ./list.txt');
+
+$listCurrentJson = file_get_contents('./list.txt');
 $listCurrentArr = json_decode($listCurrentJson, true);
 
 // Add Item
@@ -19,11 +20,11 @@ if (preg_match('/^add.*/i', $_POST['Body'])) {
       $listCurrentArr[] = $i;
    }
    $listCurrentJson = json_encode($listCurrentArr);
-   $arg = escapeshellarg($listCurrentJson);
-   shell_exec("sudo ./addToList.sh $arg");
+//   $arg = escapeshellarg($listCurrentJson);
+   file_put_contents('./list.txt', $listCurrentJson);
 
 
-   $listCurrentJson = shell_exec('sudo cat ./list.txt');
+   $listCurrentJson = file_get_contents('./list.txt');
    $listCurrentArr = json_decode($listCurrentJson, true);
    $response = "Grocery List:\n" . implode(",\n", $listCurrentArr);
 }
@@ -47,8 +48,8 @@ elseif (preg_match('/^remove.*/i', $_POST['Body'])) {
    }
 
    $listNewJson = json_encode($listNewArr);
-   $arg = escapeshellarg($listNewJson);
-   shell_exec("sudo ./addToList.sh $arg");
+//   $arg = escapeshellarg($listNewJson);
+   file_put_contents('./list.txt', $listNewJson);
    $response = "Grocery List:\n" . implode(",\n", $listNewArr);
 }
 
@@ -66,7 +67,7 @@ elseif (preg_match('/^read.*/i', $_POST['Body'])) {
 //--------------------
 elseif (preg_match('/^clear.*/i', $_POST['Body'])) {
 
-   shell_exec("rm list.txt");
+   file_put_contents('./list.txt', '');
    $response = "Grocery List:\n-Empty-";
 }
 
