@@ -1,11 +1,22 @@
 <?php
 
+// Functions
+//---------------------
+
+function writeList($str) {
+  $json = json_encode($str);
+  file_put_contents('./list.txt', $json);
+}
+
+function readList() {
+  $json = file_get_contents('./list.txt');
+  return json_decode($json, true);
+}
 
 // Get current list from file
-//--------------------
+//-----------------------------
 
-$listCurrentJson = file_get_contents('./list.txt');
-$listCurrentArr = json_decode($listCurrentJson, true);
+$listCurrentArr = readList();
 
 // Add Item
 //--------------------
@@ -19,13 +30,10 @@ if (preg_match('/^add.*/i', $_POST['Body'])) {
       $i = strtolower(trim($i));
       $listCurrentArr[] = $i;
    }
-   $listCurrentJson = json_encode($listCurrentArr);
-//   $arg = escapeshellarg($listCurrentJson);
-   file_put_contents('./list.txt', $listCurrentJson);
 
+   writeList($listCurrentArr);
 
-   $listCurrentJson = file_get_contents('./list.txt');
-   $listCurrentArr = json_decode($listCurrentJson, true);
+   $listCurrentArr = readList();
    $response = "Grocery List:\n" . implode(",\n", $listCurrentArr);
 }
 
@@ -47,9 +55,10 @@ elseif (preg_match('/^remove.*/i', $_POST['Body'])) {
       }
    }
 
-   $listNewJson = json_encode($listNewArr);
-//   $arg = escapeshellarg($listNewJson);
-   file_put_contents('./list.txt', $listNewJson);
+//   $listNewJson = json_encode($listNewArr);
+//   file_put_contents('./list.txt', $listNewJson);
+
+   writeList($listNewJson);
    $response = "Grocery List:\n" . implode(",\n", $listNewArr);
 }
 
